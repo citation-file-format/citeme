@@ -66,3 +66,86 @@ citeme.print_references()
 # Example output
 >>> article my_handle {'volume': '4', 'author': 'Johnny Awesome', 'journal': 'Acme Journal on Cartoon Properties', 'title': 'A short guide to being awesome', 'year': '2017'}
 ```
+
+### HTML Output
+Html output can be created using the `write_to_html` function. If you have beautiful soup installed (version 3 or 4) the output will be
+pretty printed.
+
+#### Full html output
+```python
+import citeme
+
+@citeme.article('my_handle', {
+    'author': 'Johnny Awesome',
+    'title': 'A short guide to being awesome',
+    'journal': 'Acme Journal on Cartoon Properties',
+    'year': '2017',
+    'volume': '4'
+})
+def my_func():
+    return True
+
+# Calling the function will add the citation to the
+# library
+my_func()
+
+# Write all the citations to a html file
+# full=True means the html file will have html, head and body tags
+citeme.write_to_html('called.html', full=True)
+```
+#### Resulting html file
+```html
+<html>
+<head>
+    <link rel="stylesheet" href="css/bibstyle.css" />
+</head>
+</html>
+<body>
+<fieldset class="the_bibliography">
+    <legend>The Bibliography</legend>
+    <div id="my_handle" class="bib-entry"><div class="bib-index">[0]</div>
+        <div class='bib-entry-field bib-entry-author'>Johnny Awesome</div>
+        <div class='bib-entry-field bib-entry-title'>A short guide to being awesome</div>
+        <div class='bib-entry-field bib-entry-journal'>Acme Journal on Cartoon Properties</div>
+        <div class='bib-entry-field bib-entry-volume'>4</div>
+        <div class='bib-entry-field bib-entry-year'>2017</div>
+    </div>
+</fieldset>
+</body>
+```
+
+#### Bibliography only html output
+```python
+import citeme
+
+@citeme.article('my_handle', {
+    'author': 'Johnny Awesome',
+    'title': 'A short guide to being awesome',
+    'journal': 'Acme Journal on Cartoon Properties',
+    'year': '2017',
+    'volume': '4'
+})
+def my_func():
+    return True
+
+# Calling the function will add the citation to the
+# library
+my_func()
+
+# Write all the citations to a html file
+# full=False means the html file will _not_ have html, head and body tags
+citeme.write_to_html('called.html', full=False)
+```
+#### Resulting html file
+```html
+<fieldset class="the_bibliography">
+    <legend>The Bibliography</legend>
+    <div id="my_handle" class="bib-entry"><div class="bib-index">[0]</div>
+        <div class='bib-entry-field bib-entry-author'>Johnny Awesome</div>
+        <div class='bib-entry-field bib-entry-title'>A short guide to being awesome</div>
+        <div class='bib-entry-field bib-entry-journal'>Acme Journal on Cartoon Properties</div>
+        <div class='bib-entry-field bib-entry-volume'>4</div>
+        <div class='bib-entry-field bib-entry-year'>2017</div>
+    </div>
+</fieldset>
+```

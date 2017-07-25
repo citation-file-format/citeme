@@ -3,6 +3,7 @@ from six import iteritems
 
 from bibtexparser.bwriter import BibTexWriter
 from bibtexparser.bibdatabase import BibDatabase
+from .html_writer import BibHtmlWriter
 
 # Singleton!
 class CiteMe(object):
@@ -44,13 +45,23 @@ class CiteMe(object):
                 description = citation.description
                 description['ENTRYTYPE'] = citation.type
                 description['ID'] = handle
-
-                print("Description: ", description)
-
                 db.entries.append(description)
         writer = BibTexWriter()
         with open(filename, 'w') as bibfile:
             bibfile.write(writer.write(db))
+
+    def write_to_html(self, filename, full=False):
+        db = BibDatabase()
+        db.entries = []
+        for ref_type in self.references:
+            for handle, citation in iteritems(self.references[ref_type]):
+                description = citation.description
+                description['ENTRYTYPE'] = citation.type
+                description['ID'] = handle
+                db.entries.append(description)
+        writer = BibHtmlWriter()
+        with open(filename, 'w') as bibfile:
+            bibfile.write(writer.write(db, full=full))
 
 
     def references_by_type(self, ref_type):
@@ -238,3 +249,7 @@ def print_references():
 
 def write_to_bibtex(filename):
     CiteMe().write_to_bibtex(filename)
+
+
+def write_to_html(filename, full=False):
+    CiteMe().write_to_html(filename, full=full)

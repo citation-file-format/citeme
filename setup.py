@@ -26,6 +26,8 @@ setup(
         'bibtexparser==0.6.2'
     ],
     extras_require={
+        'pretty-bs': ['beautifulsoup'],
+        'pretty-bs4': ['beautifulsoup4'],
         'test': ['pytest', 'pytest-flake8', 'pytest-cov'],
     },
     author_email='b.weel@esiencecenter.nl',

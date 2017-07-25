@@ -1,0 +1,27 @@
+.the_bibliography {
+    width: 800px;
+    border: solid 1px black;
+}
+
+.bib-entry {
+    width: 400px;
+    float: left;
+}
+
+.bib-entry .bib-index {
+    float: left;
+    margin-right: 10px
+}
+
+.bib-entry .bib-entry-field {
+    float: left;
+    padding: 0 5px 0 0;
+}
+
+.bib-entry .bib-entry-author {
+    font-weight: bold;
+}
+
+.bib-entry .bib-entry-title {
+    font-style: italic;
+}
