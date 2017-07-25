@@ -1,6 +1,9 @@
 import functools
 from six import iteritems
 
+from bibtexparser.bwriter import BibTexWriter
+from bibtexparser.bibdatabase import BibDatabase
+
 # Singleton!
 class CiteMe(object):
     # Class variable!
@@ -26,12 +29,29 @@ class CiteMe(object):
             self.references[citation.type] = {}
 
         if citation.handle not in self.references[citation.type]:
-            self.references[citation.type][citation.handle] = citation.description
+            self.references[citation.type][citation.handle] = citation
 
     def print_references(self):
         for ref_type in self.references:
-            for handle, description in iteritems(self.references[ref_type]):
-                print(ref_type, handle, description)
+            for handle, citation in iteritems(self.references[ref_type]):
+                print(ref_type, handle, citation.description)
+    
+    def write_to_bibtex(self, filename):
+        db = BibDatabase()
+        db.entries = []
+        for ref_type in self.references:
+            for handle, citation in iteritems(self.references[ref_type]):
+                description = citation.description
+                description['ENTRYTYPE'] = citation.type
+                description['ID'] = handle
+
+                print("Description: ", description)
+
+                db.entries.append(description)
+        writer = BibTexWriter()
+        with open(filename, 'w') as bibfile:
+            bibfile.write(writer.write(db))
+
 
     def references_by_type(self, ref_type):
         if ref_type in self.references:
@@ -46,7 +66,6 @@ class CiteMe(object):
     @staticmethod
     def set_check_fields(value):
         CiteMe.__check_fields = value
-
 
 class Citation(object):
     def __init__(self, handle, description, the_type):
@@ -83,13 +102,13 @@ class Citation(object):
                 found = False
                 for option in self._optional:
                     if isinstance(option, tuple):
-                        if field == option[0] or field == option[1]:
+                        if field in option:
                             found = True
                     elif field == option:
                         found = True
                 for option in self._required:
                     if isinstance(option, tuple):
-                        if field == option[0] or field == option[1]:
+                        if field in option:
                             found = True
                     elif field == option:
                         found = True
@@ -203,3 +222,19 @@ class unpublished(Citation):
                                           'unpublished')
         self._required = ['author', 'title', 'note']
         self._optional = ['month', 'year', 'key']
+
+
+def set_pedantic(value):
+    CiteMe.set_pedantic(value)
+
+
+def set_check_fields(value):
+    CiteMe.set_check_fields(value)
+
+
+def print_references():
+    CiteMe().print_references()
+
+
+def write_to_bibtex(filename):
+    CiteMe().write_to_bibtex(filename)

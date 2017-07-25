@@ -28,7 +28,7 @@ def my_func_bad():
     return True
 
 def test_bad_citation():
-    citeme.CiteMe().set_pedantic(True)
+    citeme.set_pedantic(True)
 
     with pytest.raises(Exception):
         my_func_bad()

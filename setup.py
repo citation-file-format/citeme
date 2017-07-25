@@ -23,6 +23,7 @@ setup(
     author='Berend Weel',
     tests_require=['pytest'],
     install_requires=[
+        'bibtexparser==0.6.2'
     ],
     extras_require={
         'test': ['pytest', 'pytest-flake8', 'pytest-cov'],
