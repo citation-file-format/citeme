@@ -7,7 +7,7 @@ citations is built when those functions and classes are used.
 At the end of your script you can output the citations to a bibtex file,
 html or plain text
 
-## Example
+## Examples
 
 ### Writing to a bibtex file
 ```python
@@ -41,6 +41,10 @@ write_to_bibtex('called.bib')
  year = {2017}
 }
 ```
+
+### iPython Notebooks
+You can use this package in a notebook as well. To display the notebook inline use the `display_bibliography` function.
+See the example notebook for more information.
 
 ### Terminal Output
 ```python
