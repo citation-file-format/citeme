@@ -22,7 +22,6 @@ class BibHtmlWriter(BibTexWriter):
         super(BibHtmlWriter, self).__init__()
         self.display_order = ['author', 'title', 'booktitle', 'journal', 'editor', 'volume',
                               'number', 'series', 'publisher', 'year', 'pages', 'url', 'doi']
-        self.include_number = True
         self.html_template = """
 <html>
 <head>
@@ -70,19 +69,18 @@ class BibHtmlWriter(BibTexWriter):
             widths = [max(map(len, entry.keys())) for entry in entries]
             self._max_field_width = max(widths)
 
-        for i, entry in enumerate(entries):
-            html += self._entry_to_bibtex(i, entry)
-        
+        html += '<ol class="references">'
+        for entry in entries:
+            html += '<li>' + self._entry_to_bibtex(entry) + '</li>'
+
+        html += '</ol>'
         html += '</fieldset>'
         return html
 
-    def _entry_to_bibtex(self, index, entry):
+    def _entry_to_bibtex(self, entry):
         html = ''
         # Write BibTeX key
-        html += '<div id="'+ entry['ID'] + '" class="bib-entry">'
-
-        if self.include_number:
-            html += '<div class="bib-index">[{0}]</div>'.format(index)
+        html += '<cite id="'+ entry['ID'] + '" class="bib-entry">'
 
         # create display_order of fields for this entry
         # only those keys which are both in self.display_order and in entry.keys
@@ -91,11 +89,14 @@ class BibHtmlWriter(BibTexWriter):
         # Write field = value lines
         for field in [i for i in display_order if i not in ['ENTRYTYPE', 'ID']]:
             try:
-                html += "\n<div class='bib-entry-field bib-entry-" + "{0:<{1}}".format(field, self._max_field_width) + "'>" + entry[field] + "</div>"
+                if field == 'url':
+                    html += "\n<span class='bib-entry-field bib-entry-url bib-entry-" + "{0:<{1}}".format(field, self._max_field_width) + "'><a href='{0}'>{0}<a></span>".format(entry[field])
+                else:
+                    html += "\n<span class='bib-entry-field bib-entry-" + "{0:<{1}}".format(field, self._max_field_width) + "'>" + entry[field] + "</span>"
             except TypeError:
                 raise TypeError(u"The field %s in entry %s must be a string"
                                 % (field, entry['ID']))
-        html += "\n</div>\n"+ self.entry_separator
+        html += "\n</cite>\n"+ self.entry_separator
 
         return html
 
