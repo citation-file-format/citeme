@@ -103,13 +103,17 @@ citeme.write_to_html('called.html', full=True)
 <body>
 <fieldset class="the_bibliography">
     <legend>The Bibliography</legend>
-    <div id="my_handle" class="bib-entry"><div class="bib-index">[0]</div>
-        <div class='bib-entry-field bib-entry-author'>Johnny Awesome</div>
-        <div class='bib-entry-field bib-entry-title'>A short guide to being awesome</div>
-        <div class='bib-entry-field bib-entry-journal'>Acme Journal on Cartoon Properties</div>
-        <div class='bib-entry-field bib-entry-volume'>4</div>
-        <div class='bib-entry-field bib-entry-year'>2017</div>
-    </div>
+    <ol class="references">
+        <li>
+        <cite class="bib-entry" id="my_handle">
+        <span class="bib-entry-field bib-entry-author">Johnny Awesome</span>
+        <span class="bib-entry-field bib-entry-title">A short guide to being awesome</span>
+        <span class="bib-entry-field bib-entry-journal">Acme Journal on Cartoon Properties</span>
+        <span class="bib-entry-field bib-entry-volume">4</span>
+        <span class="bib-entry-field bib-entry-year">2017</span>
+        </cite>
+        </li>
+    </ol>
 </fieldset>
 </body>
 ```
@@ -140,12 +144,16 @@ citeme.write_to_html('called.html', full=False)
 ```html
 <fieldset class="the_bibliography">
     <legend>The Bibliography</legend>
-    <div id="my_handle" class="bib-entry"><div class="bib-index">[0]</div>
-        <div class='bib-entry-field bib-entry-author'>Johnny Awesome</div>
-        <div class='bib-entry-field bib-entry-title'>A short guide to being awesome</div>
-        <div class='bib-entry-field bib-entry-journal'>Acme Journal on Cartoon Properties</div>
-        <div class='bib-entry-field bib-entry-volume'>4</div>
-        <div class='bib-entry-field bib-entry-year'>2017</div>
-    </div>
+    <ol class="references">
+        <li>
+        <cite class="bib-entry" id="my_handle">
+        <span class="bib-entry-field bib-entry-author">Johnny Awesome</span>
+        <span class="bib-entry-field bib-entry-title">A short guide to being awesome</span>
+        <span class="bib-entry-field bib-entry-journal">Acme Journal on Cartoon Properties</span>
+        <span class="bib-entry-field bib-entry-volume">4</span>
+        <span class="bib-entry-field bib-entry-year">2017</span>
+        </cite>
+        </li>
+    </ol>
 </fieldset>
 ```
