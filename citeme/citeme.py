@@ -51,6 +51,10 @@ class CiteMe(object):
             bibfile.write(writer.write(db))
 
     def write_to_html(self, filename, full=False):
+        with open(filename, 'w') as bibfile:
+            bibfile.write(self.get_html(full=full))
+
+    def get_html(self, full=False):
         db = BibDatabase()
         db.entries = []
         for ref_type in self.references:
@@ -60,9 +64,7 @@ class CiteMe(object):
                 description['ID'] = handle
                 db.entries.append(description)
         writer = BibHtmlWriter()
-        with open(filename, 'w') as bibfile:
-            bibfile.write(writer.write(db, full=full))
-
+        return writer.write(db, full=full)
 
     def references_by_type(self, ref_type):
         if ref_type in self.references:
@@ -253,3 +255,15 @@ def write_to_bibtex(filename):
 
 def write_to_html(filename, full=False):
     CiteMe().write_to_html(filename, full=full)
+
+
+def get_html(full=False):
+    return CiteMe().get_html(full=full)
+
+try:
+    from IPython.core.display import display, HTML
+except ImportError:
+    pass
+else:
+    def display_bibliography():
+        display(HTML(get_html(full=False)))
