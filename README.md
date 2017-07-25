@@ -31,6 +31,17 @@ my_func()
 write_to_bibtex('called.bib')
 ```
 
+#### Resulting called.bib
+```latex
+@article{my_handle,
+ author = {Johnny Awesome},
+ journal = {Acme Journal on Cartoon Properties},
+ title = {A short guide to being awesome},
+ volume = {4},
+ year = {2017}
+}
+```
+
 ### Terminal Output
 ```python
 import citeme
