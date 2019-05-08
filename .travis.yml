@@ -15,8 +15,8 @@ python:
   - "nightly"
 
 # command to install dependencies
-# install:
-#   - pip install -r test/requirements.txt
+install:
+  - pip install -r test/requirements.txt
 
 # command to run tests
 script:
