@@ -1,0 +1,60 @@
+decide on set of supported annotation formats. preliminary set:
+- bibtex-like as in ``@citeme.article()``
+- numpy citation strings (if they are formal enough)
+  https://numpydoc.readthedocs.io/en/latest/format.html#sections see number 14:
+  references See ``git clone https://github.com/numpy/numpy.git && cd numpy &&
+  grep -nr --after-context=30 References`` for examples. First impression is
+  that most of the references in numpy are not meant to be machine readable.
+  Apart from that, how will we get the references substrings out of the
+  docstring and into the annotation though?
+- CFF
+
+Granularity. An annotation's scope should (?) change with its location: for
+example have an annotation at file or module level (covering all functions in
+it), and one at function level (which overrides the module/file level
+annotation).
+
+Whenever we convert between formats, the citation information is changed
+slightly: information is lost, or its meaning changes. So, I think there is
+value in storing the string that people used to annotate their functions,
+modules, etc. (at least in case we want to support e.g. numpy citation strings),
+as opposed to (only) storing the Python object (which I assume is what we're
+doing now) Can we make it such that depending on what the user has selected as
+output format, certain conversions are skipped?  
+
+What about annotating by pointing to a file? would help declutter the code.
+Maybe like so ``@citeme.import(file='somefile')``. Can we automatically trigger
+inclusion of this data in a MANIFEST.in for when people make their source code
+distributions?
+
+Can we do without the notebook styles and html_writer? I'd rather replace the
+html_writer with a writer that writes a format that can be ingested by other
+tools, most importantly reference managers. So e.g.
+- CSL
+- JSON
+- BibTeX
+- EndNote
+- RIS
+- (CFF)
+see https://www.zotero.org/support/getting_stuff_into_your_library for more formats
+
+Use named arguments like so @citeme.article(handle='my_handle', data={"author":
+"Johnny Awesome", "year", "2001"}) Related: should all values be strings,
+including for example the year? Alternative @citeme(handle='my_handle',
+type="article", data={"author": "Johnny Awesome", "year", "2001"}). Also we
+might not need the handle, an index is probably sufficient.
+
+top level README.md:
+"Calling the function will add the citation to the library" 
+- citation -> citation data
+- library -> bibliography
+"Calling the function will add the citation data to the bibliography" 
+
+top level README.md: in the example, separate the work the developer has to do
+(write an annotation) from what the user has to do (basically add ``import
+citeme`` at the top and "give me the bibliography" at the bottom)
+
+Re our way of working: Should we write the documentation first?
+
+
+
