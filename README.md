@@ -28,7 +28,7 @@ def my_func():
 my_func()
 
 # Write all the citations to a bibtex file
-write_to_bibtex('called.bib')
+citeme.write_to_bibtex('called.bib')
 ```
 
 #### Resulting called.bib
